@@ -62,8 +62,102 @@ ADAM WAYNE	94324
 
 NICK MARTIN	50174
 
+9)Select the count of Empolyees in Health with maximum salary
+
+ select count(salary) from employee where salary in
+(select max(e.salary) from employee e inner join dept d 
+on e.dep_id = d.dept_id 
+ where dep_name ='HEALTH');
+
+10)Select the Employees who report to Natasha Stevens
+
+select e.name,e.dep_id from employee e inner  join dept d 
+on e.dep_id   = d.dept_id
+ 
+where dep_manager = 'NATASHA STEVENS';
 
 
+ADAM WAYNE	D05
+JOSEPH ANGELIN	D05
+NATASHA STEVENS	D05
+
+
+11)Display the Employee name,Employee count,Dep name,Dept manager in the Health department
+
+select e.name,count(e.e_id) as Total ,d.dep_name,d.dep_manager from employee e inner join dept d 
+ on e.dep_id = d.dept_id where d.dep_name = 'HEALTH'
+ group by e.name,d.dep_name,d.dep
+_manager;
+
+
+JOHN HELLEN	1	HEALTH	TIM ARCHER
+MARTIN TREDEAU	1	HEALTH	TIM ARCHER
+TIM ARCHER	1	HEALTH	TIM ARCHER
+PAUL VINCENT	1	HEALTH	TIM ARCHER
+BRAD MICHAEL	1	HEALTH	TIM ARCHER
+EDWARD CANE	1	HEALTH	TIM ARCHER
+
+
+12)Display the Department id,Employee ids and Manager ids for the Communications department
+
+
+
+select e.e_id,d.dept_id ,e.managerid from dept d inner join employee e 
+ on 
+e.dep_id = d.dept_id where dep_name = 'COMMUNICATIONS';
+ 
+
+
+A116	D02	A187
+A121	D02	A187
+A133	D02	A187
+A187	D02	A298
+A194	D02	A187
+A198	D02	A187
+
+
+13)Select the Average Expenses for Each dept with Dept id and Dept name
+
+select d.dept_id,d.dep_name,avg(e.salary) as Avg_Salary from employee e inner join dept d 
+ on 
+e.dep_id = d.dept_id group by d.dep_name;
+
+
+D01	HEALTH	         54527.6667
+D02	COMMUNICATIONS	48271.3333
+D05	FINANCE	         56660.3333
+D04	INSURANCE	51913.3333
+D03	PRODUCT	        58517.5000
+
+
+14)Select the total expense for the department finance
+
+select d.dep_name,sum(e.salary) from employee e inner join dept d 
+ 
+on e.dep_id  = d.dept_id where d.dep_name = 'FINANCE'
+ 
+group by d.dep_name;
+
+FINANCE	169981
+
+
+
+
+
+
+16)Select the count of Employees in each department
+
+
+select d.dep_name ,count(e.name) as Total from employee e inner join dept d 
+on e.dep_id = d.dept_id
+ group by d.dep_name;
+
+
+HEALTH	        6
+COMMUNICATIONS	6
+FINANCE	        3
+INSURANCE	3
+PRODUCT	        2
 
 
 
