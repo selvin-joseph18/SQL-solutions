@@ -1,0 +1,190 @@
+Create table Gardener (gardenerid int(10) primary key, name varchar(30), age int(10)); 
+
+
+
+----------------------------------------------------------------------------------------------------------------------
+ Create table Plant (plantid int(10) primary key, name varchar(30), sunlight float, water float, weight float);
+ 
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+ Create table planted (plantid int(10), gardenerid int(10), locationid int(10), date1 date, seeds int(10), foreign key(plantid) references plant(plantid), foreign key(gardenerid) references gardener(gardenerid), foreign key(locationid) references location(locationid)); 
+ 
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Create table picked (plantid int(10), gardenerid int(10), locationid int(10), date1 date, amount int(10), weight float, foreign key(plantid) references plant(plantid), foreign key(gardenerid) references gardener(gardenerid), foreign key(locationid) references location(locationid));
+---------------------------------------------------------------------------------------------------------
+ 
+ Insert into location values(0, "East’", .28, .80);
+ 
+Insert into location values(1, "North", .17, .84);
+ 
+Insert into location values(2, "West", .38, .48);
+ 
+Insert into location values(3, "South", .45, .66);
+ ---------------------------------------------------------------
+
+Insert into gardener values(0, "Mother", 36); 
+Insert into gardener values(1, "Father", 38);
+ 
+Insert into gardener values(2, "Tim", 15); 
+Insert into gardener values(3, "Erin", 12); 
+
+-------------------------------------------------------------
+Insert into plant values(0, "Carrot", .26, .82, .08); 
+
+Insert into plant values(1, "Beet", .44, .80, .04);
+ 
+Insert into plant values(2, "Corn", .44, .76, .26); 
+
+Insert into plant values(3, "Tomato", .42, .80, .16); 
+
+Insert into plant values(4, "Radish", .28, .84, .02); 
+
+Insert into plant values(5, "Lettuce", .29, .85, .03); 
+
+
+----------------------------------------------------
+Insert into planted values(0, 0, 0 , "2012-04-18", 28); 
+
+Insert into planted values(0, 1, 1 , '2012-04-14', 14); 
+
+Insert into planted values(1, 0, 2 , '2012-04-18', 36); 
+
+Insert into planted values(2, 1, 3 , '2012-04-14', 20); 
+
+Insert into planted values(2, 2, 2 , '2012-04-19', 12);
+ 
+Insert into planted values(3, 3, 3 , '2012-04-25', 38); 
+
+Insert into planted values(4, 2, 0 , '2012-04-30', 30); 
+
+Insert into planted values(5, 2, 0 , '2012-04-15', 30);
+----------------------------------------------------------- 
+
+Insert into picked values(0, 2, 0 , '2012-08-18', 28, 2.32); 
+
+Insert into picked values(0, 3, 1 , '2012-08-16', 12, 1.02); 
+
+Insert into picked values(2, 1, 3 , '2012-08-22', 52, 12.96); 
+
+Insert into picked values(2, 2, 2 , '2012-08-28', 18, 4.58); 
+
+Insert into picked values(3, 3, 3 , '2012-08-22', 15, 3.84); 
+
+Insert into picked values(4, 2, 0 , '2012-07-16', 23, 0.52);
+
+
+********************************************************************************************
+
+1. Write a valid SQL statement that calculates the total weight of all corn cobs that were picked from the garden:
+
+select p.name ,sum(pk.weight) AS Total_Weight 
+FROM plant p  INNER JOIN picked pk 
+
+ON p.plantid = pk.plantid
+
+WHERE p.name ="Corn"
+GROUP BY p.name;
+
+ name, sum(pk.weight)
+Corn, 17.539999961853027
+
+
+
+3)Insert a new column 'Exper' of type Number (30) to the 'gardener' table which stores  Experience of the of person. How will you modify this to varchar2(30).
+
+alter table  gardener add column exper int(10);
+
+0 row(s) affected Records: 0  Duplicates: 0  
+
+alter table gardener modify column exper varchar(30);
+
+4 row(s) affected Records: 4  Duplicates: 0  Warnings: 0
+
+
+4)  Write a query to find the plant name which required seeds less than 20 which plant on 14-APR 
+
+SELECT p.name FROM plant p
+ 
+INNER JOIN planted pl 
+
+ON p.plantid  = pl.plantid
+ 
+WHERE pl.seeds < 20 AND date1 ='2012-04-14';
+
+name
+'Carrot'
+
+5)List the amount of sunlight and water to all plants with names that start with letter 'c' or letter 'r'.
+
+SELECT name,sunlight ,water FROM plant 
+WHERE name LIKE 'C%' OR name LIKE'R%';
+
+Carrot	0.26	0.82
+Corn	0.44	0.76
+Radish	0.28	0.84
+
+6) Write a valid SQL statement that displays the plant name and  the total amount of seed required for each plant that were plant in the garden. The output should be in descending order of plant name. 
+
+
+SELECT p.name , SUM(pl.seeds) FROM plant p 
+INNER JOIN planted pl 
+ON p.plantid = pl.plantid 
+GROUP BY p.name ORDER BY p.name DESC ;
+
+
+Tomato	38
+Radish	30
+Lettuce	30
+Corn	32
+Carrot	42
+Beet	36
+
+7)  Write a valid SQL statement that calculates the average number of items produced per seed planted for each plant type:( (Average Number of Items = Total Amount Picked / Total Seeds Planted.) 
+
+ SELECT p.name,avg(pi.amount/pl.seeds)  AS Average_Number_of_Items from plant p 
+ join planted pl
+on p.plantid  = pl.plantid 
+ join picked pi 
+on pl.plantid = pl.plantid
+ group by p.name;
+
+Beet	0.68518333
+Corn	1.64444167
+Tomato	0.64911667
+Radish	0.82221667
+Lettuce	0.82221667
+
+
+9) Find out persons who picked from the same location as he/she planted. 
+
+
+SELECT DISTINCT g.name FROM gardener g 
+JOIN picked pi 
+
+ON g.gardenerid = pi.gardenerid
+ JOIN planted pl 
+ 
+ON pi.plantid = pl.plantid
+ 
+ 
+WHERE pl.gardenerid = pi.gardenerid
+  AND pl.locationid = pi.locationid
+
+Father
+Tim
+
+10) Create a view that lists all the plant names picked from all locations except ?West? in the month of August
+
+SELECT p.name FROM plant p
+ JOIN picked pi
+ 
+ON p.plantid = pi.plantid
+ 
+WHERE pi.locationid !=2
+ AND pi.date1 NOT LIKE '%08%';
+
+ name
+Radish
