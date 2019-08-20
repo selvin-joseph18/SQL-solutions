@@ -1,0 +1,98 @@
+1 )Find the titles of all movies directed by Steven Spielberg
+
+SELECT title FROM movie
+WHERE director  = "Steven Spielberg";
+
+E.T.
+Raiders of the Lost Ark
+
+2)Find all years that have a movie that received a rating of 4 or 5, and sort them in increasing order.
+
+SELECT  DISTINCT m.year FROM rating r
+INNER JOIN movie m 
+ON r.mid = m.mid  
+WHERE  r.stars BETWEEN 4 AND 5  ORDER BY rating_date ASC;
+
+1937
+1981
+2009
+1939
+
+
+3)Find the titles of all movies that have no ratings
+
+SELECT m.title , r.stars from movie m 
+LEFT JOIN rating r
+ON m.mid  = r.mid
+WHERE r.stars IS NULL;
+
+Star Wars null	
+Titanic	  null
+
+4)Some reviewers didn't provide a date with their rating. Find the names of all reviewers who have ratings with a NULL value for the date
+
+SELECT distinct re.name,r.rating_date FROM reviewer re
+LEFT JOIN rating r 
+ON r.rid =re.rid 
+WHERE rating_date IS NULL ;
+
+Daniel Lewis	null
+Chris Jackson	null
+
+5)Write a query to return the ratings data in a more readable format: reviewer name, movie title, stars, and ratingDate. Also, sort the data, first by reviewer name, then by movie title, and lastly by number of 
+stars.
+
+select   re.name,m.title, r.stars ,r.rating_date 
+FROM movie m  INNER JOIN  rating r 
+ON  m.mid = r.mid INNER JOIN reviewer re
+ON re.rid = r.rid ORDER BY re.name , m.title ,r.stars ASC; 
+
+
+Ashley White	E.T.	               3     2011-01-02
+Brittany Harris	Raiders of the Lost Ark	2	2011-01-30
+Brittany Harris	Raiders of the Lost Ark	4	2011-01-12
+Brittany Harris	The Sound of Music	2	2011-01-20
+Chris Jackson	E.T.	               2      2011-01-22
+Chris Jackson	Raiders of the Lost Ark	4	null
+Chris Jackson	The Sound of Music	3	2011-01-27
+Daniel Lewis	Snow White	         4	null
+Elizabeth Thomas	Avatar	         3	 2011-01-15
+Elizabeth Thomas	Snow White	5	2011-01-19
+James Cameron	Avatar	                5	2011-01-20
+Mike Anderson	Gone with the Wind	3	2011-01-09
+Sarah Martinez	Gone with the Wind	2	2011-01-22
+Sarah Martinez	Gone with the Wind	4	2011-01-27
+
+6)
+
+
+
+10) Find the names of all reviewers who rated Gone with the Wind
+
+select distinct re.name ,re.rid from reviewer re
+INNER JOIN  rating r 
+ON re.rid = r.rid
+INNER JOIN movie m 
+ON m.mid = r.mid
+WHERE m.title = 'Gone with the Wind'; 
+
+
+Sarah Martinez	201
+Mike Anderson	204
+
+13) Find the titles of all movies not reviewed by Chris Jackson.
+
+select m.title from movie as m inner join rating r on r.mID=m.mID
+where r.rID !=(select rID from reviewer where name="Chris Jackson");
+
+Gone with the Wind
+Gone with the Wind
+Snow White
+The Sound of Music
+Raiders of the Lost Ark
+Raiders of the Lost Ark
+Gone with the Wind
+Avatar
+Snow White
+Avatar
+E.T.
