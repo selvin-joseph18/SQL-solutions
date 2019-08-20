@@ -10,13 +10,14 @@ Create table Gardener (gardenerid int(10) primary key, name varchar(30), age int
 
  Create table planted (plantid int(10), gardenerid int(10), locationid int(10), date1 date, seeds int(10), foreign key(plantid) references plant(plantid), foreign key(gardenerid) references gardener(gardenerid), foreign key(locationid) references location(locationid)); 
  
----------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------
+
 
 
 Create table picked (plantid int(10), gardenerid int(10), locationid int(10), date1 date, amount int(10), weight float, foreign key(plantid) references plant(plantid), foreign key(gardenerid) references gardener(gardenerid), foreign key(locationid) references location(locationid));
 ---------------------------------------------------------------------------------------------------------
  
- Insert into location values(0, "East’", .28, .80);
+ Insert into location values(0, "Eastâ€™", .28, .80);
  
 Insert into location values(1, "North", .17, .84);
  
@@ -163,15 +164,11 @@ Lettuce	0.82221667
 
 SELECT DISTINCT g.name FROM gardener g 
 JOIN picked pi 
-
 ON g.gardenerid = pi.gardenerid
  JOIN planted pl 
- 
-ON pi.plantid = pl.plantid
- 
- 
+ ON pi.plantid = pl.plantid
 WHERE pl.gardenerid = pi.gardenerid
-  AND pl.locationid = pi.locationid
+AND pl.locationid = pi.locationid
 
 Father
 Tim
@@ -180,10 +177,8 @@ Tim
 
 SELECT p.name FROM plant p
  JOIN picked pi
- 
-ON p.plantid = pi.plantid
- 
-WHERE pi.locationid !=2
+ ON p.plantid = pi.plantid
+ WHERE pi.locationid !=2
  AND pi.date1 NOT LIKE '%08%';
 
  name
