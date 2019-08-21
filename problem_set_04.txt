@@ -1,0 +1,77 @@
+1) Find the names of all students who are friends with someone named Gabriel. (1 point possible)
+
+ select hi.name,f.id1 from friend f join highschooler h 
+ on f.id2 = h.id  join highschooler hi on
+ hi.id  = f.id1 where h.name = 'Gabriel'
+
+Jordan	1510
+Alexis	1247
+Cassandra1709
+Andrew	1782
+Jessica	1501
+
+
+4) Find all students who do not appear in the Likes table (as a student who likes or is liked) and return their names and grades. Sort by grade, then by name within each grade.
+
+select h.id,h.name , h.grade from highschooler h  left join likes l 
+
+on l.id2 = h.id where l.id2 is null order by h.grade , h.name ;
+
+
+1510	Jordan	9
+1381	Tiffany	9
+1782	Andrew	10
+1641	Brittany 10
+1316	Austin	11
+1911	Gabriel	11
+1025	John	12
+1661	Logan	12
+ 
+
+5) For every situation where student A likes student B, but we have no information about whom B likes (that is, B does not appear as an ID1 in the Likes table), return A and B's names and grades. 
+
+select h.name,h.grade from highschooler h where h.id in(select  l2.id2   from likes l1  
+right  join likes l2 
+on l2.id2  = l1.id1   where l1.id1 is  null );
+
+
+Kris	10
+Jordan	12
+Haley	10
+
+9) Find the name and grade of all students who are liked by more than one other student. (1 point possible)
+
+select h.name, count(l2.id2)  as count  from likes l1   right  join likes l2
+ 
+on l2.id2  = l1.id1 join highschooler h  
+on h.id = l2.id2 group by l2.id2 having count>1  ;
+
+
+Cassandra	2
+Kris	        2
+
+                               (OR)
+
+select h.name,h.grade from highschooler h where h.id in 
+(select ID2 from likes where ID2=h.ID group by ID2 having count(ID2)>1);
+
+12) What is the average number of friends per student? (Your result should be just one number.)
+
+select name,avg(total) as avg from (select h.name,count(id2) as total from highschooler h join friend f 
+
+on h.id = f.id1 group by f.id1) r group by name;
+
+Jordan	2.5000
+Gabriel	2.5000
+Tiffany	2.0000
+Cassandra2.0000
+Andrew	4.0000
+Kris	3.0000
+Haley	2.0000
+Alexis	4.0000
+Jessica	3.0000
+Austin	2.0000
+Kyle	3.0000
+Logan	2.0000
+Brittany2.0000
+John	1.0000
