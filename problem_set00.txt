@@ -159,10 +159,29 @@ FINANCE	        3
 INSURANCE	3
 PRODUCT	        2
 
+17)Select the count of Employees in each department having salary <10000
 
 
+select d.dep_name ,count(e.name) as Total from employee e inner join dept d on 
+e.dep_id = d.dept_id
+  where e.salary < 10000 group by d.dep_name ;
 
 
+Empty set (0.00 sec)
+
+18)Select the total number of Employees in Dept id D04
+
+select d.dep_name, count(e.name) AS Total from employee e inner join dept d 
+on e.dep_id  = d.dept_id 
+  where d.dept_id = 'D04' group by d.dep_name;
+
+INSURANCE	3
 
 
+20)Select the Employees who has Tim Cook as their manager
 
+
+select e.name from employee e inner join dept d on e.dep_id = d.dept_id
+   where d.dep_manager = 'TIM COOK';
+
+0 row(s) returned
