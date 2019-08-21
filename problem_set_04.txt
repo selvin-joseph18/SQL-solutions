@@ -39,6 +39,16 @@ Kris	10
 Jordan	12
 Haley	10
 
+8) Find the difference between the number of students in the school and the number of different first names. 
+
+select count-first_name as diff from
+
+(select distinct count(id) as count from highschooler) R,
+
+(select distinct count(name) as  first_name from highschooler) S;
+
+2
+
 9) Find the name and grade of all students who are liked by more than one other student. (1 point possible)
 
 select h.name, count(l2.id2)  as count  from likes l1   right  join likes l2
@@ -75,3 +85,15 @@ Kyle	3.0000
 Logan	2.0000
 Brittany2.0000
 John	1.0000
+
+
+14) Find the name and grade of the student(s) with the greatest number of friends
+
+
+select h.name,h.grade,count(id2) as count  from highschooler h join friend f 
+
+on h.id = f.id1 and h.id =  f.id1 
+group by h.name,h.grade having count>3 order by count desc ;
+
+Andrew	10	4
+Alexis	11	4
