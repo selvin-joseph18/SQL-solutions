@@ -1,5 +1,7 @@
 
-
+1)with highest_salary
+as(SELECT NAME ,dense_rank() OVER (ORDER BY SALARY DESC)as dr1 FROM EMPLOYEE )
+select name from highest_salary where dr1<=3
 
 
 
