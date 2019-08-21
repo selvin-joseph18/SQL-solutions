@@ -164,5 +164,30 @@ group by director having count(*)>1;
 Steven Spielberg	2
 James Cameron	        2
 
+19 )Find the movie(s) with the highest average rating. Return the movie title(s) and average rating. (Hint: This query is more difficult to write in SQLite than other systems; you might think of it as finding the highest average rating and then choosing the movie(s) with that average rating.) (1 point possible)
+select max(star) from (select  m.director ,m.title,avg(r.stars)  as star from movie m 
+inner join rating r 
+on m.mid  = r.mid group by m.mid ) r;
 
+4.5000
+
+20) Find the movie(s) with the lowest average rating. Return the movie title(s) and average rating. (Hint: This query may be more difficult to write in SQLite than other systems; you might think of it as finding the lowest average rating and then choosing the movie(s) with that average rating.) (1 point possible)
+
+select min(star) from (select  m.director ,m.title,avg(r.stars)  as star from movie m inner join rating r 
+on m.mid  = r.mid 
+group by m.mid ) r;
+
+2.5000
+
+21) For each director, return the director's name together with the title(s) of the movie(s) they directed that received the highest rating among all of their movies, and the value of that rating. Ignore movies whose director is NULL. (1 point possible)
+
+select  m.director ,m.title,max(r.stars) from movie m inner join rating r 
+on m.mid  = r.mid where m.director is not null 
+group by m.director,m.title ;
+
+Victor Fleming	Gone with the Wind	4
+Robert Wise	The Sound of Music	3
+Steven Spielberg	E.T.	3
+James Cameron	Avatar	5
+Steven Spielberg	Raiders of the Lost Ark	4
 
