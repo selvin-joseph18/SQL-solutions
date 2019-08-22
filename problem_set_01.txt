@@ -76,7 +76,8 @@ insert into guest values('G467', 'Robert Swift', 'Atlanta');
 
 insert into guest values('G190', 'Edward Cane', 'Baltimore');
 
------------------------------------------------------------------
+
+-----------------------------------------------------------------
 
 
 INSERTING DATA INTO BOOKING TABLE:
@@ -232,10 +233,15 @@ due_from <= '1999-09-30';
 
  4 
 
-11)
+11)List the names and cities of guests who began a stay in New York in August.
 
 
+select g.name ,g.city from guest g inner join booking b
+on g.guest_no = b.guest_no join hotel h on  h.hotel_no = b.hotel_no
+ where b.due_from like '%08%' group by g.name;
 
+Adam Wayne	Pittsburgh
+Tara Cummings	Baltimore
 
 
 13) List the hotel name and city of the hotel with the highest priced room.
