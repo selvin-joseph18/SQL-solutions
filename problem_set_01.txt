@@ -243,6 +243,14 @@ on g.guest_no = b.guest_no join hotel h on  h.hotel_no = b.hotel_no
 Adam Wayne	Pittsburgh
 Tara Cummings	Baltimore
 
+12)List the hotel names and room numbers of any hotel rooms that have not been booked.
+
+select h.hotel_no,h.name ,b.room_no from hotel h left join booking b 
+on b.hotel_no  = h.hotel_no where b.room_no is null;
+
+H432	Brownstone Hotel	null
+
+
 
 13) List the hotel name and city of the hotel with the highest priced room.
 
