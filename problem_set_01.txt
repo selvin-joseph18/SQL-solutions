@@ -258,6 +258,16 @@ select h.name,h.city,r.price from hotel h join room r on h.hotel_no = r.hotel_no
 
  Park Place New York 195 
 
+14) List hotel names, room numbers, cities, and prices for hotels that have rooms with prices lower than the lowest priced room in a Boston hotel.
+
+select h.name, r.room_no,h.city ,r.price from hotel h join room r
+on h.hotel_no  = r.hotel_no where r.price < 
+(select min(room.price) as price from room join hotel on hotel.hotel_no = room.hotel_no where city = 'Boston');
+
+Brownstone Hotel	876	Toronto	124
+Brownstone Hotel	898	Toronto	124
+
+
 15) List the average price of a room grouped by city.
 
 SELECT h.city, AVG(r.price)  AS Avg_Price
