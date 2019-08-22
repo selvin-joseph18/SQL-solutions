@@ -1,11 +1,15 @@
 
-1)with highest_salary
+1)Select the Employee with the top three salaries
+
+
+with highest_salary
 as(SELECT NAME ,dense_rank() OVER (ORDER BY SALARY DESC)as dr1 FROM EMPLOYEE )
-select name from highest_salary where dr1<=3
 
+select name from highest_salary where dr1<=3;
 
-
-
+TARA CUMMINGS
+PAUL VINCENT
+ADAM WAYNE
 
 2) Select the Employee with the least salary
 
@@ -143,8 +147,13 @@ group by d.dep_name;
 FINANCE	169981
 
 
+15)Select the department which spends the least with Dept id and Dept manager name
 
+select dept_id,dep_manager,min(total) from (select d.dept_id,d.dep_manager,sum(e.salary)  as Total from dept d 
+inner join employee e 
+on e.dep_id = d.dept_id group by d.dept_id) R;
 
+D01	TIM ARCHER	117035
 
 
 16)Select the count of Employees in each department
@@ -178,6 +187,17 @@ on e.dep_id  = d.dept_id
   where d.dept_id = 'D04' group by d.dep_name;
 
 INSURANCE	3
+
+19)Select all department details of the Department with Maximum Employees
+
+select dep_id,dep_name,dep_manager,max(total) as Max from 
+
+(select e.dep_id, d.dep_name,d.dep_manager,count(d.dept_id) as Total from dept d 
+inner join employee e 
+on e.dep_id = d.dept_id group by d.dep_name) R;
+
+
+D01	HEALTH	TIM ARCHER	6
 
 
 20)Select the Employees who has Tim Cook as their manager
