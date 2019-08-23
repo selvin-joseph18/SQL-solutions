@@ -57,6 +57,22 @@ Kris	10
 Jordan	12
 Haley	10
 
+6) Find names and grades of students who only have friends in the same grade. Return the result sorted by grade, then by name within each grade.
+
+ select h.name,h.grade from Highschooler h where h.ID not in
+(select f.ID1 from Friend f inner join Highschooler h1 on h1.ID=f.ID2 join highschooler h2 on h2.ID=f.ID1 where h2.grade<>h1.grade) 
+order by h.grade ;
+
+Jordan	9
+Haley	10
+Kris	10
+Brittany	10
+Gabriel	11
+John	12
+Logan	12
+
+
+
 8) Find the difference between the number of students in the school and the number of different first names. 
 
 select count-first_name as diff from
