@@ -27,6 +27,22 @@ on c.concert_in = p.place_no join musician m
 on c.concert_orgniser = m.m_no where p.place_country = 'USA';
 
 James Steeple	New York	USA
+6) List the names, dates of birth and the instrument played of living musicians who play a instrument which Theo also plays.
+
+select   m1.m_name,m1.born,p1.instrument from musician m1 join performer p1 on p1.perf_is = m1.m_no
+where m1.died is null and instrument in
+(select  p.instrument from performer p join musician  m
+on p.perf_is = m.m_no where m.m_name LIKE '%Theo%');
+
+Theo Mengel	12/08/48	banjo
+John Smith	03/03/50	violin
+Harry Forte	28/02/51	violin
+Theo Mengel	12/08/48	violin
+Jeff Dawn	12/12/45	violin
+James First	10/06/65	violin
+Harry Forte	28/02/51	drums
+Theo Mengel	12/08/48	drums
+
 
 8)List the names of musicians who both conduct and compose and live in Britain
 
