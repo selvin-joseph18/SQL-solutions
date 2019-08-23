@@ -1,0 +1,50 @@
+1) Give the organiser's name of the concert in the Assembly Rooms after the first of Feb, 1997. (1 point possible)
+
+
+select m.m_name from musician m inner join concert c 
+on  c.concert_no = m.m_no where concert_venue = 'Assembly Rooms' and con_date > 01/02/1997 ;
+
+Harriet Smithson
+
+2) Find all the performers who played guitar or violin and were born in England. (1 point possible)
+
+select m.m_name from performer p join musician m on m.m_no  = p.perf_is 
+join place pl on pl.place_no = m.born_in
+where (p.instrument = 'violin' OR p.instrument = 'guitar') and (pl.place_country = 'England');
+
+Harry Forte
+Davis Heavan
+Alan Fluff
+Theo Mengel
+James First
+Harriet Smithson
+
+3) List the names of musicians who have conducted concerts in USA together with the towns and dates of these concerts. 
+
+
+select m.m_name ,p.place_town,p.place_country from place p join concert c 
+on c.concert_in = p.place_no join musician m 
+on c.concert_orgniser = m.m_no where p.place_country = 'USA';
+
+James Steeple	New York	USA
+
+8)List the names of musicians who both conduct and compose and live in Britain
+
+select distinct m.m_name from concert c   join composer cp on cp.comp_is  = c.concert_orgniser
+join musician m on m.m_no = cp.comp_is  join place p 
+on p.place_no = m.living_in where p.place_country = 'England' ;
+
+Helen Smyth
+
+9) Show the least commonly played instrument and the number of musicians who play it.
+
+select * from(
+select p.instrument ,count(p.instrument) as total,dense_rank() over (order by count(p.instrument) ) ra from
+performer p group by p.instrument)a where ra = 1;
+
+banjo	 1	1
+trumpet	 1	1
+cornet	 1	1
+trombone 1	1	
+horn	 1	1
+clarinet 1	1	
