@@ -63,8 +63,45 @@ Mike Anderson	Gone with the Wind	3	2011-01-09
 Sarah Martinez	Gone with the Wind	2	2011-01-22
 Sarah Martinez	Gone with the Wind	4	2011-01-27
 
-6)
+6)select re.name,m.title from movie as m,rating as r1,Rating as r2, Reviewer as re
+where r1.rID=r2.rID
+and r1.mID=r2.mID
+and m.mID=r1.mID
+and re.rID=r1.rID
+and r1.ratingDate<r2.ratingDate
+and r1.stars<r2.stars;
 
+'Sarah Martinez', 'Gone with the Wind'
+
+
+7)select m.title,max(r.stars) from movie as m inner join rating as r on m.mID=r.mID
+group by m.mID order by m.title;
+
+Avatar	5
+E.T.	3
+Gone with the Wind	4
+Raiders of the Lost Ark	4
+Snow White	5
+
+
+
+8)select m.title,abs(max(r.stars)-min(r.stars)) as rating_spread from movie as 
+m inner join rating as r on m.mID=r.mID group by r.mID order by rating_spread desc,m.title;
+
+Avatar	2
+Gone with the Wind	2
+Raiders of the Lost Ark	2
+E.T.	1
+Snow White	1
+The Sound of Music	1
+
+
+9)select avg(first.avg)-avg(next.avg) from (select avg(stars) as avg from rating,Movie where rating.mID=Movie.mID 
+and Movie.year<1980
+group by rating.mID)as first,
+(select avg(stars) as avg from rating,Movie where rating.mID=Movie.mID 
+and Movie.year>1980
+group by rating.mID) as next;
 
 
 10) Find the names of all reviewers who rated Gone with the Wind
