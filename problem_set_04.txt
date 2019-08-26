@@ -99,6 +99,16 @@ Kris	        2
 select h.name,h.grade from highschooler h where h.id in 
 (select ID2 from likes where ID2=h.ID group by ID2 having count(ID2)>1);
 
+10) select h1.name,h1.grade,h2.name ,h2.grade,h3.name,h3.grade from likes l1 join likes l2
+on l1.id2 = l2.id1 and l1.id1 != l2.id2 
+  join highschooler h1 on l1.id1 = h1.id
+  join highschooler h2 on l1.id2  = h2.id
+  join highschooler h3 on l2.id2 = h3.id;
+  
+ Andrew	10	Cassandra	9	Gabriel	9
+Gabriel	11	Alexis	11	Kris	10
+
+
 12) What is the average number of friends per student? (Your result should be just one number.)
 
 select name,avg(total) as avg from (select h.name,count(id2) as total from highschooler h join friend f 
