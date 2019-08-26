@@ -108,6 +108,22 @@ on l1.id2 = l2.id1 and l1.id1 != l2.id2
  Andrew	10	Cassandra	9	Gabriel	9
 Gabriel	11	Alexis	11	Kris	10
 
+11) Find those students for whom all of their friends are in different grades from themselves. Return the students' names and grades.(1 point possible)
+     
+     select f.id1,f.id2,h.name,h.grade,h1.grade from friend f join  highschooler h 
+     on h.id = f.id2 join highschooler h1 on h1.id = f.id1 
+     where h.grade!= h1.grade ;
+
+Tiffany	9
+Cassandra	9
+Gabriel	9
+Andrew	10
+Jessica	11
+Austin	11
+Alexis	11
+Jordan	12
+Kyle	12
+
 
 12) What is the average number of friends per student? (Your result should be just one number.)
 
