@@ -14,7 +14,7 @@ select * from employee;
 
 insert into department values(4,'HR');
 
-select * from department;
+select * from department; 
 
 1) select d.dept_id, d.dept_name, coalesce(sum(e.salary),0) as total from department d left join employee e 
 on  d.dept_id = e.dept_id 
