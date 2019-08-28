@@ -43,6 +43,15 @@ James First	10/06/65	violin
 Harry Forte	28/02/51	drums
 Theo Mengel	12/08/48	drums
 
+7) List the name and the number of players for the band whose number of players is greater than the average number of players in each band. (1 point possible)
+
+ select band_name,count(*) from band join plays_in
+     on band_no=band_id
+     group by band_name
+     having count(*)>
+    (select avg(play) from(
+     select band_id,count(*) as play from plays_in
+    group by band_id) avgplay);
 
 8)List the names of musicians who both conduct and compose and live in Britain
 
@@ -64,3 +73,30 @@ cornet	 1	1
 trombone 1	1	
 horn	 1	1
 clarinet 1	1	
+10. List the bands that have played music composed by Sue Little;Give the titles of the composition in each case. (1 point possible)
+
+select band_name,c_title as title from musician  join composer c
+     on m_no=comp_is join has_composed  on comp_no=cmpr_no
+     join composition on cmpn_no=c_no
+     join performance on c_no=performed
+     join band on gave=band_no
+     where m_name='Sue Little'
+     order by band_name,c_title;
+
+11) select distinct m1.m_name,p1.place_town,p1.place_country from musician m1 join performer
+      on m1.m_no=perf_is
+      join place p1 on m1.born_in=p1.place_no
+      join (select place_no,m_no from musician join place
+      on born_in=place_no where m_name='James first') tbl2
+      on p1.place_no=tbl2.place_no
+      where m1.m_no!=tbl2.m_no;
+      
+      
+13. Give the band name, conductor and contact of the bands performing at the most recent concert in the Royal Albert Hall. (1 point possible)
+
+ mysql> select band_name,m.m_name contact,m1.m_name conductor from band b
+      join performance p on band_no=gave
+      join concert c on concert_no=performed_in
+      join musician m on m.m_no=band_contact
+      join musician m1 on m1.m_no=conducted_by
+      where concert_venue='Royal Albert Hall';
