@@ -1,0 +1,59 @@
+create database sample;
+
+use sample;
+
+create table Employee(emp_id integer(4) primary key,emp_name varchar(20),salary integer(4),dept_id integer(4));
+desc Employee;
+
+create table department(dept_id integer(4) primary key,dept_name varchar(20));
+
+desc department;
+insert into employee values(60,'chitra',7000,3);
+
+select * from employee;
+
+insert into department values(4,'HR');
+
+select * from department;
+
+select d.dept_id, d.dept_name, coalesce(sum(e.salary),0) as total from department d left join employee e 
+on  d.dept_id = e.dept_id 
+group by d.dept_id,d.dept_name;
+
+
+
+select e.dept_id, coalesce(d.dept_name,'others') as dept_name, sum(e.salary) as total from department d right join employee e 
+on  d.dept_id = e.dept_id 
+group by d.dept_id,d.dept_name;
+
+
+create table emp(emp_id integer(4) primary key,emp_name varchar(20),manager_id integer(4),salary integer(4));
+desc emp;
+
+insert into emp values(1,'vivek',8,11000);
+insert into emp values(8,'aarthi',4,2700);
+
+select * from emp;
+
+
+select * from emp where salary>=2700 and salary<10000
+order by emp_name;
+
+
+select e.emp_id as manager_id,e.emp_name as manager,sum(m.salary) 
+from emp e  join emp m on e.emp_id = m.manager_id
+ group by manager_id,manager;
+
+
+with result as (
+select emp_id,emp_name,salary,dense_rank() over(order by salary desc) ra from emp
+) select emp_id,emp_name,salary from result where result.ra =2;
+with result as (
+select emp_id,emp_name,salary,dense_rank() over(order by salary desc) ra from emp
+) select emp_id,emp_name,salary from result where result.ra <=3;
+
+
+
+
+
+
