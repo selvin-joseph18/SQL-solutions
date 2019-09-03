@@ -1,0 +1,146 @@
+create database test2;
+
+use test2;
+create table employee(emp_id integer(4) primary key,emp_name varchar(20),desc_id integer(4),
+place_id integer(4),proj_id integer(4));
+
+insert into employee values(15,'meera',60,8,7);
+
+select * from employee;
+
+
+create table designation(desc_id integer(4),desc_name varchar(20),role_type varchar(20));
+
+insert into designation values(100,'sm','manager');
+
+select * from designation;
+
+
+create table place(place_id integer(4),place_desc varchar(20),place_type varchar(20));
+
+insert into place values(10,'canada','onshore');
+
+select * from place;
+
+
+create table project(proj_id integer(4),proj_name varchar(20));
+
+insert into project values(6,'flipkart');
+
+
+1)select e.emp_id,e.emp_name,coalesce(d.desc_name,'no role'),coalesce(p.place_desc ,'no place'),coalesce(pj.proj_name,'no project') ,d.role_type
+
+from employee e 
+
+left  join designation d on e.desc_id =d.desc_id
+
+left join place p on e.place_id = p.place_id
+left join project pj on e.proj_id =pj.proj_id 
+order by e.emp_id;
+ 
+ 
+select e.emp_id,e.emp_name,d.desc_name from employee e  
+join designation d on e.desc_id  = d.desc_id;
+
+ 
+ where d.role_type ='developer'
+ 
+
+3)select d.role_type, p.place_desc,pj.proj_name,count(e.emp_id) from employee e 
+left join designation d on e.desc_id = d.desc_id 
+right join place p on e.place_id  = p.place_id 
+right join project pj on e.proj_id =pj.proj_id
+ 
+where d.role_type ='developer'
+ group by p.place_desc,pj.proj_name;
+ 
+ 
+select d.role_type, p.place_desc,pj.proj_name,count(e.emp_id)
+ from employee e 
+
+left join designation d on e.desc_id = d.desc_id 
+right join place p on e.place_id  = p.place_id 
+
+right join project pj on e.proj_id =pj.proj_id
+
+ 
+group by p.place_desc,pj.proj_name;
+ 
+
+4)select e.emp_id,e.emp_name,coalesce(d.desc_name,'no role'),coalesce(p.place_desc ,'no place'),coalesce(pj.proj_name,'no project') ,d.role_type
+
+from employee e 
+
+full  join designation d on e.desc_id =d.desc_id
+
+full join place p on e.place_id = p.place_id
+full join project pj on e.proj_id =pj.proj_id 
+order by e.emp_id;
+ 
+
+
+use test2;
+
+create table customer(customer_id integer(4),cust_name varchar(20),city varchar(20),
+priority_num integer(4),salesman_id integer(4),purchased_amount integer(4));
+
+insert into customer values(80,'dinesh','mumbai',2,4,6000);
+
+select * from customer;
+
+create table salesman (salesman_id integer(4),salesman_name varchar(20),
+city varchar(20),sales_manager_id integer(4),monthly_target integer(4));
+
+
+insert into salesman values(6,'balaji','hyderabad',6,15000);
+
+select * from salesman;
+
+5) select salesman_name,monthly_target,
+case when monthly_target >9000 then 'middle class'
+when monthly_target <4000 then 'poor'
+else 'rich'
+end as sta 
+from salesman;
+update salesman set sales_manager_id = 4
+where salesman_name ='abraham';
+
+
+select distinct s.salesman_name,c.cust_name,c.city,s.city from customer c 
+
+join salesman s on c.salesman_id =s.salesman_id
+
+where c.city!=s.city group by s.salesman_name;
+6)select s.salesman_name,s.monthly_target ,sum(c.purchased_amount) as total from salesman s
+
+join customer c on s.salesman_id =c.salesman_id
+
+group by s.salesman_name,s.monthly_target
+
+having total>=s.monthly_target;
+
+7) select * from
+(select c.cust_name,c.city,c.priority_num,c.purchased_amount ,
+dense_rank() over 
+(partition by priority_num order by c.purchased_amount desc) as ra from customer c
+)d
+ where ra<=2;
+
+
+8)
+select s.salesman_name,s.city,s.monthly_target ,coalesce(sum(c.purchased_amount),0) as total from salesman s
+
+left join customer c on s.salesman_id =c.salesman_id
+
+group by s.salesman_name,s.monthly_target  
+having total <(select avg(monthly_target) from salesman);
+
+
+
+select s.salesman_name,s.monthly_target ,sum(c.purchased_amount) as total from salesman s
+join customer c on s.salesman_id =c.salesman_id
+group by s.salesman_name,s.monthly_target
+having total>=s.monthly_target;
+
+
+13)select substring(salesman_name,3,length(salesman_name)-4) from salesman;
