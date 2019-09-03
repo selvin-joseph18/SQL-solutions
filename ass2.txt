@@ -141,6 +141,10 @@ select s.salesman_name,s.monthly_target ,sum(c.purchased_amount) as total from s
 join customer c on s.salesman_id =c.salesman_id
 group by s.salesman_name,s.monthly_target
 having total>=s.monthly_target;
-
+select distinct s.student_name from student s join student_details sd
+on s.student_detail_id=sd.student_detail_id join city c 
+on c.city_id=sd.city_id join class cl
+on cl.class_id=sd.class_id 
+where c.city_name='Chennai' OR cl.classroom_num IN(301,310,320);
 
 13)select substring(salesman_name,3,length(salesman_name)-4) from salesman;
